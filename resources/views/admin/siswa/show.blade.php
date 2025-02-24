@@ -10,12 +10,13 @@
             border-collapse: collapse;
             margin: 20px 0px;
             text-align: left;
+            border: 2px solid black;
         }
 
         table,
         th,
         td{
-            border: 1px solid;
+            border: 2px solid black;
             text-align: left;
             padding-right:20px; 
         }
@@ -35,9 +36,9 @@
         </tr>
         <tr>
             <th>Nama</th>
-            <td>: {{ $siswa->name }}</td>
+            <td>{{ $siswa->name }}</td>
             <th>Nis</th>
-            <td>: {{ $siswa->nis }}</td>
+            <td>{{ $siswa->nis }}</td>
         </tr>
         <tr>
             <th>Email</th>
@@ -56,9 +57,9 @@
             <td></td>
             <th>Status</th>
             @if($siswa->status == 1):
-            <td>: Aktif</td>
+            <td>Aktif</td>
             @else
-            <td>: Tidak Aktif</td>
+            <td>Tidak Aktif</td>
             @endif
         </tr>
     </table>

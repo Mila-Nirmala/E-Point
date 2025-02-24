@@ -3,7 +3,7 @@
 
 <h1>Login</h1>
 <a href="{{ route('register') }}">Daftar</a>
-<br>
+<br><br>
 <form action="{{ route ('authenticate') }}" method="post">
     @csrf
     <label>Email</label>
@@ -16,3 +16,5 @@
     <br>
     <input type="submit" value="Login">
 </form>
+
+@endsection

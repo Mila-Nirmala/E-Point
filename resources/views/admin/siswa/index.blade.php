@@ -50,14 +50,14 @@
             <td>{{ $siswa->name }}</td>
             <td>{{ $siswa->email }}</td>
             <td>{{ $siswa->tingkatan }} {{ $siswa->jurusan }} {{ $siswa->kelas}}</td>
-            @if ($siswa->status==1)
+            @if ($siswa->status == 1)
             <td>Aktif</td>
             @else
             <td>Tidak Aktif</td>
             @endif
             <td>
-                <form action="{{ route('siswa.destroy',$siswa->id) }}" onsubmit="return confirm('Anda Yakin ?')" method="POST">
-                    <a href="{{ route('siswa.show', $siswa->id) }} " class="btn btn-sm btn-dark">SHOW</a>
+                <form action="{{ route('siswa.destroy', $siswa->id) }}" onsubmit="return confirm('Anda Yakin ?')" method="POST">
+                    <a href="{{ route('siswa.show', $siswa->id) }}" class="btn btn-sm btn-dark">SHOW</a>
                     <a href="{{ route('siswa.edit', $siswa->id) }}" class="btn btn-sm btn-primary">EDIT</a>
                     @csrf
                     @method('DELETE')
@@ -76,6 +76,8 @@
         </tr>
         @endforelse
     </table>
+
+    <!-- Perbaikan di sini -->
     {{ $siswas->links() }}
 </body>
 </html>
