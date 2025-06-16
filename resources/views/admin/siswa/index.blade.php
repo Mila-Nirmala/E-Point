@@ -30,7 +30,7 @@
     @endif
 
 
-    <table class="tabel">
+    <table class="tabel" border="1">
         <tr>
             <th>Foto</th>
             <th>NIS</th>
@@ -44,11 +44,13 @@
         @forelse($siswas as $siswa)
         <tr>
             <td>
-                <img src="{{ asset('storage/public/siswas/' . $siswa->image) }}" width="120px" height="120px">
+                <img src="{{ asset('storage/public/siswas/' .$siswa->image) }}" width="120px" height="120px">
+                
             </td>
             <td>{{ $siswa->nis }}</td>
             <td>{{ $siswa->name }}</td>
             <td>{{ $siswa->email }}</td>
+            <td>{{ $siswa->hp }}
             <td>{{ $siswa->tingkatan }} {{ $siswa->jurusan }} {{ $siswa->kelas}}</td>
             @if ($siswa->status == 1)
             <td>Aktif</td>
@@ -66,18 +68,19 @@
             </td>
         </tr>
         @empty
-        <tr>
-            <td>
-                <p>Data Tidak Ditemukan</p>
-            </td>
-            <td>
-                <a href="{{ route('siswa.index') }}">Kembali</a>
-            </td>
-        </tr>
-        @endforelse
+            <!-- Jika data kosong, tidak tampil di tabel -->
+            @endforelse
+        </tbody>
     </table>
 
-    <!-- Perbaikan di sini -->
+    @if($siswas->isEmpty())
+        <div style="margin-top: 15px;">
+            <p>Data Tidak Ditemukan</p>
+            <a href="{{ route('admin.dashboard') }}">Kembali</a>
+        </div>
+    @endif
+
+    <br>
     {{ $siswas->links() }}
 </body>
 </html>

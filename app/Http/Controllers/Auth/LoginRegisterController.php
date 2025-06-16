@@ -25,7 +25,7 @@ class LoginRegisterController extends Controller
         return view('admin.akun.create');
     }
 
-    public function register()
+    public function storeRegister()
     {
         return view('auth.register');
     }
@@ -34,9 +34,9 @@ class LoginRegisterController extends Controller
     {
         $request->validate([
             'name'     => 'required|string|max:250',
-            'email'    => 'required|string|max:250|unique:users',
+            'email'    => 'required|string|email|max:250|unique:users',
             'password' => 'required|min:8|confirmed',
-            'usertype' => 'required'
+            'usertype' => 'required|in:admin,siswa,ptk'
         ]);
 
         User::create([
@@ -64,13 +64,24 @@ class LoginRegisterController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->route(
-                Auth::user()->usertype == 'admin' ? 'admin.dashboard' : 'home'
-            )->with('success', 'Kamu berhasil log in');
+            $usertype = Auth::user()->usertype;
+
+            if ($usertype == 'admin') {
+                return redirect()->route('admin.dashboard')->with('success', 'Kamu berhasil log in sebagai admin');
+            } elseif ($usertype == 'siswa') {
+                return redirect()->route('siswa.dashboard')->with('success', 'Kamu berhasil log in sebagai siswa');
+            } elseif ($usertype == 'ptk') {
+                return redirect()->route('ptk.dashboard')->with('success', 'Kamu berhasil log in sebagai PTK');
+            } else {
+                Auth::logout();
+                return back()->withErrors([
+                    'email' => 'Role user tidak valid.',
+                ]);
+            }
         }
 
         return back()->withErrors([
-            'email' => "Email kamu tidak terdaftar, silakan coba lagi",
+            'email' => "Email kamu tidak terdaftar atau password salah, silakan coba lagi",
         ])->onlyInput('email');
     }
 
@@ -92,7 +103,7 @@ class LoginRegisterController extends Controller
     {
         $request->validate([
             'name'     => 'required|string|max:250',
-            'usertype' => 'required'
+            'usertype' => 'required|in:admin,siswa,ptk'
         ]);
 
         $user->update([
@@ -129,9 +140,7 @@ class LoginRegisterController extends Controller
         return redirect()->route('akun.edit', $user->id)->with('success', 'Password berhasil diubah');
     }
 
-    
     // Hapus akun user beserta data siswa (jika ada)
-     
     public function destroy(User $user): RedirectResponse
     {
         // Cari id siswa berdasarkan id_user dari tabel 'siswas'
@@ -151,20 +160,15 @@ class LoginRegisterController extends Controller
         return redirect()->route('akun.index')->with('success', 'Akun berhasil dihapus!');
     }
 
-    
-     //  Hapus data siswa dan file gambar (jika ada)
-    
+    // Hapus data siswa dan file gambar (jika ada)
     protected function destroySiswa(string $id): void
     {
-        // Ambil data siswa berdasarkan id menggunakan Eloquent
         $siswa = Siswa::findOrFail($id);
 
-        // Hapus gambar siswa dari storage, jika ada
         if (!empty($siswa->image)) {
             Storage::delete('public/siswas/' . $siswa->image);
         }
 
-        // Hapus data siswa
         $siswa->delete();
     }
 }

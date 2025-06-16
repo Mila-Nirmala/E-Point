@@ -7,7 +7,7 @@
     <title>Tambah Akun</title>
 </head>
 <body>
-    <h1>Register</h1>
+    <h1>Tambah User</h1>
     <br><br>
 
     <a href="{{ route('akun.index') }}">Kembali</a>

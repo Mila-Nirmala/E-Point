@@ -16,10 +16,30 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->usertype != 'admin'){
-            return redirect('dashboard');
+        // Cek apakah user sudah login
+        if (!Auth::check()) {
+            return redirect()->route('login');
         }
 
-        return $next($request);
+        $user = Auth::user();
+
+        // Kalau user adalah admin, lanjut akses route
+        if ($user->usertype == 'admin') {
+            return $next($request);
+        }
+
+        // Kalau user siswa, redirect ke dashboard siswa
+        if ($user->usertype == 'siswa') {
+            return redirect()->route('siswa.dashboard');
+        }
+
+        // Kalau user ptk, redirect ke dashboard ptk
+        if ($user->usertype == 'ptk') {
+            return redirect()->route('ptk.dashboard');
+        }
+
+        // Jika role tidak dikenal, logout dan redirect ke login
+        Auth::logout();
+        return redirect()->route('login');
     }
 }

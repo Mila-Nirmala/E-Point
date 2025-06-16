@@ -58,11 +58,11 @@
         </select>
         <br><br>
 
-        <button type="submit">Simpan Perubahan</button><br><br>
+        
     </form>
 
     <!-- Form Update Email -->
-    <form action="{{ route('updateEmail', ['user' => $user->id]) }}" method="POST">
+    <form action="{{ route('akun.updateEmail', ['user' => $user->id]) }}" method="POST">
         @csrf
         @method('PUT')
 
@@ -70,12 +70,12 @@
         <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" required>
         <br><br>
 
-        <button type="submit">Simpan Email</button>
-        <br><br>
+        
+       
     </form>
 
     <!-- Form Update Password -->
-    <form action="{{ route('updatePassword', ['user' => $user->id]) }}" method="POST">
+    <form action="{{ route('akun.updatePassword', ['user' => $user->id]) }}" method="POST">
         @csrf
         @method('PUT')
 
@@ -87,7 +87,7 @@
         <input type="password" id="password_confirmation" name="password_confirmation" required>
         <br><br>
 
-        <button type="submit">Simpan Password</button>
+        <button type="submit">Simpan Perubahan</button><br><br>
         <br><br>
     </form>
 

@@ -71,16 +71,18 @@
                         </form>
                     </td>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="4">Data Tidak Ditemukan</td>
-                    <td>
-                        <a href="{{ route('pelanggaran.index') }}">Kembali</a>
-                    </td>
-                </tr>
+                @empty
+                {{-- Tidak menampilkan baris kosong di tabel --}}
             @endforelse
         </tbody>
     </table>
+
+    @if($pelanggarans->isEmpty())
+        <div style="margin-top: 15px;">
+            <p>Data Tidak Ditemukan</p>
+            <a href="{{ route('admin.dashboard') }}">Kembali</a>
+        </div>
+    @endif
 
     <br>
 

@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Siswa;
 use App\Models\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -50,7 +50,8 @@ class SiswaController extends Controller
         ]);
 
         $image = $request->file('image');
-        $image->storeAs('public/siswas', $image->hashName(), 'public');
+        $image->storeAs('public/siswas', $image->hashName());
+
 
         $id_akun = $this->insertAccount($request->name, $request->email, $request->password);
 
